@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.view.common.ProductChooser">
+  <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="500" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <component id="8b435" class="com.utils.SearchTextField" binding="productSearch" custom-create="true">
+        <constraints border-constraint="North"/>
+        <properties/>
+      </component>
+      <scrollpane id="7f89d">
+        <constraints border-constraint="Center"/>
+        <properties/>
+        <clientProperties>
+          <html.disable class="java.lang.Boolean" value="false"/>
+        </clientProperties>
+        <border type="none"/>
+        <children>
+          <component id="880da" class="javax.swing.JTable" binding="tableResult">
+            <constraints/>
+            <properties>
+              <autoResizeMode value="0"/>
+            </properties>
+          </component>
+        </children>
+      </scrollpane>
+      <component id="99fbd" class="javax.swing.JLabel" binding="resultLabel">
+        <constraints border-constraint="South"/>
+        <properties>
+          <horizontalAlignment value="0"/>
+          <horizontalTextPosition value="0"/>
+          <text value=""/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>
