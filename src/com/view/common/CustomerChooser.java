@@ -13,6 +13,8 @@ public class CustomerChooser extends JPanel{
     private void createUIComponents() {
         this.customerSearch = new SearchTextField();
         this.customerSearch.setPlaceHolderText("Ingrese el Cliente");
+        this.customerSearch.setSizeOfSearchTextFienld(278, 40);
+
     }
     public SearchTextField getCustomerSearch() {
         return customerSearch;

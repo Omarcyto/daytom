@@ -139,7 +139,7 @@ public class CreateDevolution {
                         cont[0]++;
                     } else {
                         preTotalBS[0] = Double.valueOf(FORMAT_BS.format(row.getCell(2).getNumericCellValue() * row.getCell(3).getNumericCellValue())); //ok);
-                        preTotalUSD[0] = Double.valueOf(FORMAT_USD.format(row.getCell(2).getNumericCellValue() * row.getCell(3).getNumericCellValue() / tcLocal)); //ok);
+                        preTotalUSD[0] = Double.valueOf(FORMAT_USD.format(preTotalBS[0] / tcLocal)); //ok);
                         productList.add(GenericBuilder.of(Product::new)
                                 .with(Product::setCodCli, row.getCell(0).getStringCellValue())  //ok .
                                 .with(Product::setCodProduct, row.getCell(1).getStringCellValue()) //ok

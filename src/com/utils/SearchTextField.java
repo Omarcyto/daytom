@@ -76,6 +76,7 @@ public class SearchTextField extends JTextField {
         // Dimension for JTextField.
         Dimension dimension = new Dimension(width, height);
         this.setSize(dimension);
+        this.setPreferredSize(dimension);
         this.repaint();
     }
     /**

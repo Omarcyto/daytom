@@ -37,6 +37,79 @@ public class Product {
     private String notes;
     private String exchangeExt;
     private String boxNumber;
+    private String quantityShop1;
+    private String quantityShop2;
+    private String quantityShop3;
+    private String quantityShop4;
+    private String quantityToSell;
+    private String image;
+    private String isOffer;
+    private String quantity_param;
+
+    public String getQuantityParam() {
+        return quantity_param;
+    }
+
+    public void setQuantityParam(String quantity_param) {
+        this.quantity_param = quantity_param;
+    }
+
+    public String getQuantityShop1() {
+        return quantityShop1;
+    }
+
+    public String getQuantityShop2() {
+        return quantityShop2;
+    }
+
+    public String getQuantityShop3() {
+        return quantityShop3;
+    }
+
+    public String getQuantityShop4() {
+        return quantityShop4;
+    }
+
+    public String getQuantityToSell() {
+        return quantityToSell;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public String getIsOffer() {
+        return isOffer;
+    }
+
+    public void setQuantityShop1(String quantityShop1) {
+        this.quantityShop1 = quantityShop1;
+    }
+
+    public void setQuantityShop2(String quantityShop2) {
+        this.quantityShop2 = quantityShop2;
+    }
+
+    public void setQuantityShop3(String quantityShop3) {
+        this.quantityShop3 = quantityShop3;
+    }
+
+    public void setQuantityShop4(String quantityShop4) {
+        this.quantityShop4 = quantityShop4;
+    }
+
+    public void setQuantityToSell(String quantityToSell) {
+        this.quantityToSell = quantityToSell;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public void setIsOffer(String isOffer) {
+        this.isOffer = isOffer;
+    }
+
 
     public String getBoxNumber() {
         return boxNumber;
@@ -82,12 +155,14 @@ public class Product {
         return customer;
     }
 
-    public String getIsSpecial(){
+    public String getIsSpecial() {
         return isSpecial;
     }
-    public void setIsSpecial(String isSpecial){
+
+    public void setIsSpecial(String isSpecial) {
         this.isSpecial = isSpecial;
     }
+
     public String getPriceBS() {
         return priceBS;
     }

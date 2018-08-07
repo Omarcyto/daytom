@@ -6,6 +6,7 @@ import com.utils.GenericBuilder;
 import com.utils.SearchTextField;
 import com.utils.tables.Product;
 
+import javax.naming.ldap.PagedResultsControl;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.KeyEvent;
@@ -20,6 +21,11 @@ public class SearchProductModel {
     private final SQL QUERY = SQL.getInstance();
     private int shopID;
     private Stream<ResultSet> exis;
+
+    public List<Product> getProductList() {
+        return productList;
+    }
+
     private List<Product> productList;
     private JTable tableResult;
     private SearchTextField searchProduct;
@@ -28,9 +34,13 @@ public class SearchProductModel {
 
     public SearchProductModel(JTable tableResult, SearchTextField searchProduct, JLabel resultLabel, int shopID) throws SQLException, ClassNotFoundException {
         this.shopID = shopID;
+        System.out.println("1");
         this.exis = QUERY.getExis();
+        System.out.println("2");
         this.productList = new ArrayList<>();
         this.tableResult = tableResult;
+
+
         this.resultLabel = resultLabel;
         this.searchProduct = searchProduct;
         this.searchProduct.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -58,6 +68,8 @@ public class SearchProductModel {
             }
         };
         this.tableResult.setModel(modelResult);
+        this.tableResult.getColumnModel().getColumn(0).setPreferredWidth(200);
+        this.tableResult.getColumnModel().getColumn(1).setPreferredWidth(58);
         CommonActions.getInstance().cleanModelOfJTable(modelResult);
     }
 
@@ -68,6 +80,19 @@ public class SearchProductModel {
                         .with(Product::setCodProduct, rs.getString("CODART"))
                         .with(Product::setQuantityCurrent, rs.getString("CANTI0" + shopID))
                         .with(Product::setDescription, rs.getString("DES"))
+                        .with(Product::setQuantityShop1, rs.getString("CANTI01"))
+                        .with(Product::setQuantityShop1, rs.getString("CANTI02"))
+                        .with(Product::setQuantityShop1, rs.getString("CANTI03"))
+                        .with(Product::setQuantityShop1, rs.getString("CANTI04"))
+                        .with(Product::setPriceOrigin, rs.getString("PCOSTO"))
+                        .with(Product::setPriceCurrentUSD, rs.getString("PMAYOR"))
+                        .with(Product::setImage, rs.getString("IMAGEN"))
+                        .with(Product::setIsOffer, rs.getString("OFERTA"))
+                        .with(Product::setIsNew, rs.getString("NUEVO"))
+                        .with(Product::setGainPercent, rs.getString("GANANCIA"))
+                        .with(Product::setNotes, rs.getString("NOTAS"))
+                        .with(Product::setCodProvider, rs.getString("CODPROV"))
+
                         .build());
             } catch (SQLException e) {
                 e.printStackTrace();

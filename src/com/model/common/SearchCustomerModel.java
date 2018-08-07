@@ -56,6 +56,7 @@ public class SearchCustomerModel {
             }
         };
         this.tableResult.setModel(modelResult);
+        this.tableResult.getColumnModel().getColumn(0).setPreferredWidth(258);
         CommonActions.getInstance().cleanModelOfJTable(modelResult);
     }
 

@@ -1,12 +1,12 @@
 package com.singleton;
 
 
-
-import javafx.stage.FileChooser;
+import com.utils.tables.Product;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.io.File;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -34,6 +34,7 @@ public class CommonActions {
     private String[] dec;
     private String[] cent;
 
+
     /**
      * Constructor for SearchConnection.
      */
@@ -50,7 +51,7 @@ public class CommonActions {
         this.simbolos = new DecimalFormatSymbols();
         simbolos.setDecimalSeparator('.');
         simbolos.setGroupingSeparator(',');
-        this.codeFormat= new DecimalFormat("0000000");
+        this.codeFormat = new DecimalFormat("0000000");
         this.formateadorUSD = new DecimalFormat("#0.000", simbolos);
         this.formateadorBS = new DecimalFormat("#0.00", simbolos);
 
@@ -75,11 +76,29 @@ public class CommonActions {
         return commonActions;
     }
 
-    public File getFileWithJFileChooser(){
+    public int getNextIndex(String type) {
+        int code = 0;
+        try {
+            if (type.equalsIgnoreCase("V")) {
+                code = SQL.getInstance().getNextPurchase();
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return code;
+
+    }
+
+    public File getFileWithJFileChooser() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.showDialog(null, "Open");
         return fileChooser.getSelectedFile();
     }
+
     public DecimalFormat getFormatUSD() {
         return formateadorUSD;
     }
@@ -95,15 +114,14 @@ public class CommonActions {
     }
 
     public void cleanModelOfJTable(DefaultTableModel modelOfJTableResult) {
-        try{
-        int rows = modelOfJTableResult.getRowCount();
-        if (rows > 0) {
-            for (int i = 0; i < rows; i++) {
-                modelOfJTableResult.removeRow(0);
+        try {
+            int rows = modelOfJTableResult.getRowCount();
+            if (rows > 0) {
+                for (int i = 0; i < rows; i++) {
+                    modelOfJTableResult.removeRow(0);
+                }
             }
-        }
-        }
-        catch (NullPointerException e){
+        } catch (NullPointerException e) {
             System.out.println("is empty");
         }
     }
@@ -208,10 +226,30 @@ public class CommonActions {
         }
         return n + getMiles(miles);
     }
-    public String getCode(String type,int number){
-    String result = "%s"+codeFormat.format(number);
-    return String.format(result,type.toUpperCase());
 
+    public String getCode(String type, int number) {
+        String result = "%s" + codeFormat.format(number);
+        return String.format(result, type.toUpperCase());
+
+    }
+
+    public boolean isValidProductToSell(Product product) {
+
+        final int[] currentQuantity = new int[1];
+        try {
+
+            SQL.getInstance().getProductToSell(product).forEach(resultSet -> {
+                try {
+                    currentQuantity[0] = resultSet.getInt(product.getQuantityParam());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            });
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return Integer.valueOf(product.getQuantityToSell()) <= currentQuantity[0];
     }
 
 }

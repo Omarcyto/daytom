@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.view.purchases.PurchaseView">
+  <grid id="cbd77" binding="contentPane" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="48" y="54" width="860" height="650"/>
+    </constraints>
+    <properties>
+      <maximumSize width="860" height="650"/>
+      <minimumSize width="860" height="650"/>
+      <preferredSize width="860" height="650"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <grid id="6fa82" binding="param" layout-manager="GridBagLayout">
+        <constraints border-constraint="North"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="88c92" binding="paramPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+            <constraints>
+              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties/>
+            <border type="bevel-raised"/>
+            <children>
+              <component id="7ef20" class="javax.swing.JLabel" binding="tcLabel">
+                <constraints/>
+                <properties>
+                  <font name="Lucida Grande" size="13"/>
+                  <text value="T/Cambio:"/>
+                </properties>
+              </component>
+              <component id="7aa5c" class="com.utils.SearchTextField" binding="exchangeTextField">
+                <constraints/>
+                <properties>
+                  <font name="Aller" size="18" style="1"/>
+                  <foreground color="-3407872"/>
+                  <horizontalAlignment value="0"/>
+                  <maximumSize width="50" height="27"/>
+                  <minimumSize width="50" height="27"/>
+                  <preferredSize width="50" height="27"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="c5fc8" class="javax.swing.JLabel" binding="discountLabel">
+                <constraints/>
+                <properties>
+                  <font name="Lucida Grande" size="13"/>
+                  <text value="Descuento:"/>
+                </properties>
+              </component>
+              <component id="be2d2" class="com.utils.SearchTextField" binding="discountTextField">
+                <constraints/>
+                <properties>
+                  <font name="Aller" size="18" style="1"/>
+                  <foreground color="-3407872"/>
+                  <horizontalAlignment value="0"/>
+                  <maximumSize width="50" height="27"/>
+                  <minimumSize width="50" height="27"/>
+                  <preferredSize width="50" height="27"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="23c45" class="javax.swing.JLabel" binding="ivaLabel">
+                <constraints/>
+                <properties>
+                  <font name="Lucida Grande" size="13"/>
+                  <text value="I.V.A.:"/>
+                </properties>
+              </component>
+              <component id="5592a" class="com.utils.SearchTextField" binding="ivaTExtField">
+                <constraints/>
+                <properties>
+                  <font name="Aller" size="18" style="1"/>
+                  <foreground color="-3407872"/>
+                  <horizontalAlignment value="0"/>
+                  <maximumSize width="50" height="27"/>
+                  <minimumSize width="50" height="27"/>
+                  <preferredSize width="50" height="27"/>
+                  <text value=""/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="4c337" binding="codePanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+            <constraints>
+              <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="5eb39" class="javax.swing.JLabel" binding="codVentaLabel">
+                <constraints/>
+                <properties>
+                  <font name="Lucida Grande" size="13"/>
+                  <text value="Codigo:"/>
+                </properties>
+              </component>
+              <component id="ab484" class="com.utils.SearchTextField" binding="codVentaTextField">
+                <constraints/>
+                <properties>
+                  <font name="AvantGarde Bk BT" size="16" style="1"/>
+                  <foreground color="-3407872"/>
+                  <horizontalAlignment value="0"/>
+                  <maximumSize width="120" height="27"/>
+                  <minimumSize width="120" height="27"/>
+                  <preferredSize width="120" height="27"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <hspacer id="f927c">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+          </hspacer>
+          <hspacer id="5403e">
+            <constraints>
+              <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+          </hspacer>
+          <vspacer id="35140">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+          </vspacer>
+        </children>
+      </grid>
+      <grid id="a4853" binding="resume" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="South"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="95d27" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints border-constraint="North"/>
+            <properties>
+              <maximumSize width="819" height="66"/>
+              <minimumSize width="819" height="66"/>
+              <preferredSize width="819" height="66"/>
+            </properties>
+            <border type="none"/>
+            <children/>
+          </grid>
+          <grid id="ffe69" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints border-constraint="Center"/>
+            <properties>
+              <maximumSize width="819" height="120"/>
+              <minimumSize width="819" height="120"/>
+              <preferredSize width="819" height="120"/>
+            </properties>
+            <border type="none"/>
+            <children/>
+          </grid>
+          <grid id="7416d" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints border-constraint="South"/>
+            <properties/>
+            <border type="none"/>
+            <children/>
+          </grid>
+        </children>
+      </grid>
+      <grid id="bb178" binding="search" layout-manager="GridBagLayout">
+        <constraints border-constraint="Center"/>
+        <properties>
+          <maximumSize width="819" height="290"/>
+          <minimumSize width="819" height="290"/>
+          <preferredSize width="819" height="290"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <grid id="b19b7" binding="chooser" layout-manager="CardLayout" hgap="0" vgap="0">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="1.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <autoscrolls value="false"/>
+              <maximumSize width="295" height="238"/>
+              <minimumSize width="295" height="238"/>
+              <preferredSize width="295" height="238"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <nested-form id="31daa" form-file="com/view/common/CustomerChooser.form" binding="customerChooser">
+                <constraints>
+                  <card name="Card1"/>
+                </constraints>
+              </nested-form>
+              <nested-form id="9d3e4" form-file="com/view/common/ProductChooser.form" binding="productChooser">
+                <constraints>
+                  <card name="Card2"/>
+                </constraints>
+              </nested-form>
+            </children>
+          </grid>
+          <grid id="6f861" binding="productData" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="1.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <maximumSize width="454" height="238"/>
+              <minimumSize width="454" height="238"/>
+              <preferredSize width="454" height="238"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <grid id="b4e49" binding="productImagePanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+                <constraints border-constraint="North"/>
+                <properties>
+                  <maximumSize width="192" height="139"/>
+                  <minimumSize width="192" height="139"/>
+                  <preferredSize width="192" height="139"/>
+                </properties>
+                <border type="bevel-raised" title="Datos Del Producto" title-justification="2"/>
+                <children>
+                  <grid id="40dd7" binding="productImage" layout-manager="BorderLayout" hgap="0" vgap="0">
+                    <constraints border-constraint="West"/>
+                    <properties>
+                      <maximumSize width="200" height="130"/>
+                      <minimumSize width="200" height="130"/>
+                      <preferredSize width="200" height="130"/>
+                    </properties>
+                    <border type="bevel-lowered"/>
+                    <children/>
+                  </grid>
+                  <grid id="56fdc" binding="productDataManager" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+                    <constraints border-constraint="Center"/>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <grid id="d0b85" binding="cantidades" layout-manager="GridBagLayout">
+                        <constraints/>
+                        <properties/>
+                        <border type="bevel-raised" title="Cantidades"/>
+                        <children>
+                          <grid id="64113" binding="shop1Panel" layout-manager="BorderLayout" hgap="0" vgap="0">
+                            <constraints>
+                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                              <gridbag weightx="0.0" weighty="0.0"/>
+                            </constraints>
+                            <properties/>
+                            <border type="none"/>
+                            <children>
+                              <component id="50b68" class="javax.swing.JLabel" binding="shop1Label">
+                                <constraints border-constraint="North"/>
+                                <properties>
+                                  <font name="Lucida Grande" size="13"/>
+                                  <horizontalAlignment value="0"/>
+                                  <text value="La Paz"/>
+                                </properties>
+                              </component>
+                              <component id="d7685" class="com.utils.SearchTextField" binding="shop1TextField">
+                                <constraints border-constraint="South"/>
+                                <properties>
+                                  <editable value="false"/>
+                                  <font name="Aller" size="18" style="1"/>
+                                  <foreground color="-3407872"/>
+                                  <horizontalAlignment value="0"/>
+                                  <maximumSize width="108" height="30"/>
+                                  <minimumSize width="108" height="30"/>
+                                  <preferredSize width="108" height="30"/>
+                                  <text value="0"/>
+                                </properties>
+                              </component>
+                            </children>
+                          </grid>
+                          <grid id="ee358" binding="shop2Panel" layout-manager="BorderLayout" hgap="0" vgap="0">
+                            <constraints>
+                              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                              <gridbag weightx="0.0" weighty="0.0"/>
+                            </constraints>
+                            <properties/>
+                            <border type="none"/>
+                            <children>
+                              <component id="3b261" class="javax.swing.JLabel" binding="shop2Label">
+                                <constraints border-constraint="North"/>
+                                <properties>
+                                  <font name="Lucida Grande" size="13"/>
+                                  <horizontalAlignment value="0"/>
+                                  <text value="Cochabamba"/>
+                                </properties>
+                              </component>
+                              <component id="a7fb0" class="com.utils.SearchTextField" binding="shop2TextField">
+                                <constraints border-constraint="South"/>
+                                <properties>
+                                  <editable value="false"/>
+                                  <font name="Aller" size="18" style="1"/>
+                                  <foreground color="-3407872"/>
+                                  <horizontalAlignment value="0"/>
+                                  <maximumSize width="108" height="30"/>
+                                  <minimumSize width="108" height="30"/>
+                                  <preferredSize width="108" height="30"/>
+                                  <text value="0"/>
+                                </properties>
+                              </component>
+                            </children>
+                          </grid>
+                          <grid id="8ff9f" binding="shop3Panel" layout-manager="BorderLayout" hgap="0" vgap="0">
+                            <constraints>
+                              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                              <gridbag weightx="0.0" weighty="0.0"/>
+                            </constraints>
+                            <properties/>
+                            <border type="none"/>
+                            <children>
+                              <component id="f05ed" class="javax.swing.JLabel" binding="shop3Label">
+                                <constraints border-constraint="North"/>
+                                <properties>
+                                  <font name="Lucida Grande" size="13"/>
+                                  <horizontalAlignment value="0"/>
+                                  <text value="El Alto"/>
+                                </properties>
+                              </component>
+                              <component id="540c1" class="com.utils.SearchTextField" binding="shop3TextField">
+                                <constraints border-constraint="South"/>
+                                <properties>
+                                  <editable value="false"/>
+                                  <font name="Aller" size="18" style="1"/>
+                                  <foreground color="-3407872"/>
+                                  <horizontalAlignment value="0"/>
+                                  <maximumSize width="108" height="30"/>
+                                  <minimumSize width="108" height="30"/>
+                                  <preferredSize width="108" height="30"/>
+                                  <text value="0"/>
+                                </properties>
+                              </component>
+                            </children>
+                          </grid>
+                          <grid id="6f5b9" binding="shop4Panel" layout-manager="BorderLayout" hgap="0" vgap="0">
+                            <constraints>
+                              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                              <gridbag weightx="0.0" weighty="0.0"/>
+                            </constraints>
+                            <properties/>
+                            <border type="none"/>
+                            <children>
+                              <component id="ebf97" class="javax.swing.JLabel" binding="shop4Label">
+                                <constraints border-constraint="North"/>
+                                <properties>
+                                  <font name="Lucida Grande" size="13"/>
+                                  <horizontalAlignment value="0"/>
+                                  <text value="Santa Cruz"/>
+                                </properties>
+                              </component>
+                              <component id="89c14" class="com.utils.SearchTextField" binding="shop4TextField">
+                                <constraints border-constraint="South"/>
+                                <properties>
+                                  <editable value="false"/>
+                                  <font name="Aller" size="18" style="1"/>
+                                  <foreground color="-3407872"/>
+                                  <horizontalAlignment value="0"/>
+                                  <maximumSize width="108" height="30"/>
+                                  <minimumSize width="108" height="30"/>
+                                  <preferredSize width="108" height="30"/>
+                                  <text value="0"/>
+                                </properties>
+                              </component>
+                            </children>
+                          </grid>
+                        </children>
+                      </grid>
+                    </children>
+                  </grid>
+                  <grid id="8188a" binding="providerPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+                    <constraints border-constraint="South"/>
+                    <properties/>
+                    <border type="none"/>
+                    <children/>
+                  </grid>
+                </children>
+              </grid>
+              <grid id="1340b" binding="customerData" layout-manager="BorderLayout" hgap="0" vgap="0">
+                <constraints border-constraint="South"/>
+                <properties/>
+                <border type="bevel-raised"/>
+                <children/>
+              </grid>
+            </children>
+          </grid>
+          <grid id="7bceb" binding="customerInformation" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints>
+              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <maximumSize width="515" height="92"/>
+              <minimumSize width="515" height="92"/>
+              <preferredSize width="515" height="92"/>
+            </properties>
+            <border type="bevel-raised" title="Informacion del Cliente"/>
+            <children>
+              <grid id="5e41f" binding="nameCustomer" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+                <constraints border-constraint="North"/>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="77cf1" class="javax.swing.JLabel" binding="customerNameLabel">
+                    <constraints/>
+                    <properties>
+                      <font name="Lucida Grande" size="13"/>
+                      <text value="Nombre:"/>
+                    </properties>
+                  </component>
+                  <component id="5762b" class="com.utils.SearchTextField" binding="customerNameTextField">
+                    <constraints/>
+                    <properties>
+                      <font name="Lucida Grande" size="13" style="1"/>
+                      <foreground color="-3407872"/>
+                      <horizontalAlignment value="0"/>
+                      <maximumSize width="245" height="27"/>
+                      <minimumSize width="245" height="27"/>
+                      <preferredSize width="245" height="27"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <component id="9f9be" class="javax.swing.JLabel" binding="saldoLabel">
+                    <constraints/>
+                    <properties>
+                      <font name="Lucida Grande" size="13"/>
+                      <text value="Saldo:"/>
+                    </properties>
+                  </component>
+                  <component id="7bd3e" class="com.utils.SearchTextField" binding="customerSaldoTextField">
+                    <constraints/>
+                    <properties>
+                      <font name="Aller" size="14" style="1"/>
+                      <foreground color="-3407872"/>
+                      <horizontalAlignment value="0"/>
+                      <maximumSize width="100" height="27"/>
+                      <minimumSize width="100" height="27"/>
+                      <preferredSize width="100" height="27"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <component id="b0db3" class="javax.swing.JLabel" binding="monedaLabel">
+                    <constraints/>
+                    <properties>
+                      <font name="Lucida Grande" size="13"/>
+                      <text value="$moneda"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <grid id="48337" binding="otherCustomer" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+                <constraints border-constraint="Center"/>
+                <properties>
+                  <maximumSize width="525" height="37"/>
+                  <minimumSize width="525" height="37"/>
+                  <preferredSize width="525" height="37"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="9d9cc" class="javax.swing.JLabel">
+                    <constraints/>
+                    <properties>
+                      <font name="Lucida Grande" size="13"/>
+                      <text value="Ciudad:"/>
+                    </properties>
+                  </component>
+                  <component id="284db" class="com.utils.SearchTextField" binding="customerCiudadTextField">
+                    <constraints/>
+                    <properties>
+                      <font name="Aller" size="14" style="1"/>
+                      <foreground color="-3407872"/>
+                      <horizontalAlignment value="0"/>
+                      <maximumSize width="100" height="27"/>
+                      <minimumSize width="100" height="27"/>
+                      <preferredSize width="145" height="27"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <component id="55596" class="javax.swing.JLabel">
+                    <constraints/>
+                    <properties>
+                      <font name="Lucida Grande" size="13"/>
+                      <text value="$moneda"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+            </children>
+          </grid>
+          <grid id="6d887" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children/>
+          </grid>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>

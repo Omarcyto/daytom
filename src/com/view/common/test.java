@@ -1,11 +1,14 @@
 package com.view.common;
 
+import com.model.common.SearchProductModel;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 
 public class test extends JDialog {
     private JPanel contentPane;
@@ -35,6 +38,15 @@ public class test extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+
+        try {
+            SearchProductModel productModel = new SearchProductModel(products.getTableResult(),products.getProductSearch(),products.getResultLabel(),1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public ProductChooser getProducts() {
@@ -60,5 +72,6 @@ public class test extends JDialog {
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);
+
     }
 }

@@ -1,8 +1,9 @@
 package com.singleton;
 
 import com.utils.ResultSetIterator;
+import com.utils.tables.Product;
+import com.utils.tables.Purchase;
 
-import javax.swing.plaf.nimbus.State;
 import java.io.File;
 import java.io.FileInputStream;
 import java.sql.Connection;
@@ -11,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Spliterators;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -59,10 +61,10 @@ public class SQL {
         return sqlQuerys;
     }
 
+    // 2018
+    public void purchaseComplete(Purchase purchase) throws SQLException {
 
-    public void ventaDesocupar(int codvent, int su, Timestamp fecha, int resp) throws SQLException {
-
-        consulta = "UPDATE electr_sec_ventas SET TERMINADO ='1',MODIFICAR ='" + fecha + "', RESP ='" + resp + "', ESTADO = '0' WHERE CODVENT ='" + codvent + "' AND cod_sucursal ='" + su + "'";
+        consulta = "UPDATE electr_sec_ventas SET TERMINADO ='1',MODIFICAR ='" + CommonActions.getInstance().getDataBaseDateOf(new Date()) + "', RESP ='" + purchase.getUserID() + "', ESTADO = '0' WHERE CODVENT ='" + purchase.getId() + "' AND cod_sucursal ='" + purchase.getShopID() + "'";
         stm.execute(consulta);
     }
 
@@ -279,6 +281,12 @@ public class SQL {
     //2018
     public Stream<ResultSet> getExis() throws SQLException {
         consulta = "SELECT * FROM electr_exis ORDER BY CODART";
+        return this.stream(stm.executeQuery(consulta));
+    }
+
+    //2018
+    public Stream<ResultSet> getProductToSell(Product product) throws SQLException {
+        consulta = "SELECT " + product.getQuantityParam() + " FROM `electr_exis` WHERE electr_exis.CODART = '" + product.getCodProduct() + "'";
         return this.stream(stm.executeQuery(consulta));
 
     }
@@ -560,6 +568,17 @@ public class SQL {
 
         return this.stream(stm.executeQuery(consulta));
     }
+
+    //2018
+    public int getNextPurchase() throws SQLException {
+        consulta = "SELECT MAX(electr_sec_ventas.CODVENT) FROM electr_sec_ventas";
+        rs = stm.executeQuery(consulta);
+        while (rs.next()) {
+            return rs.getInt("MAX(electr_sec_ventas.CODVENT)") + 1;
+        }
+        return 0;
+    }
+
 
     //2018
     public Stream<ResultSet> getCodart() throws SQLException {
@@ -1200,11 +1219,41 @@ public class SQL {
         //  stm.execute(consulta);
     }
 
+    //2018
+    public void sellProduct(Product product) throws SQLException {
+        consulta = "INSERT INTO `electr_cliart` (`cod`, `CODCLI`, `CODART`, `CANTIDAD`, `PRECIO`, `TOTAL`, `CODVENT`, `DES`, `cod_sucursal`, `PRECIO_BS`, `TOTAL_BS`, `CODPROV`) VALUES (NULL, '" + product.getCustomer() + "', '" + product.getCodProduct() + "', '" + product.getQuantityToSell() + "', '" + product.getPriceUSD() + "', '" + product.getPreTotalUSD() + "', '" + product.getCodPurchase() + "', '" + product.getDescription() + "', '" + product.getShopID() + "', '" + product.getPriceBS() + "', '" + product.getPreTotalBS() + "', '" + product.getCodProvider() + "');";
+        stm.execute(consulta);
+
+        consulta = "UPDATE ELECTR_EXIS SET " + product.getQuantityParam() + " =" + product.getQuantityParam() + " - '" + product.getQuantityToSell() + "' WHERE CODART ='" + product.getCodProduct() + "' ";
+        stm.execute(consulta);
+
+    }
+
+    //2018
+    public void removeProduct(Product product) throws SQLException {
+        consulta = "DELETE FROM `electr_cliart` WHERE CODART = '" + product.getCodProduct() + "' AND CODCLI = '" + product.getCustomer() + "' AND CANTIDAD = '" + product.getQuantityToSell() + "' ";
+        stm.execute(consulta);
+
+        consulta = "UPDATE ELECTR_EXIS SET " + product.getQuantityParam() + " =" + product.getQuantityParam() + " + '" + product.getQuantityToSell() + "' WHERE CODART ='" + product.getCodProduct() + "' ";
+        stm.execute(consulta);
+
+    }
+
+    //2018
+    public void insertPurchaseResume(Purchase purchase) throws SQLException {
+        consulta = "INSERT INTO `electr_resumen` (`cod`, `CODCLI`, `CODVENT`, `TOTAL_V`, `LITERAL`, `FEC_VENTA`, `IVA`, `IVA_VALOR`, `TC`, `RESP`, `DESC_ANTERIOR`, `DESCUENTO`, `DESC_VALOR`, `ESTADO`, `PAGO`, `SALDO`, `LITERAL_BS`, `PROCESO`,`TOTAL_V_BS`, `DESC_ANTERIOR_BS`, `IVA_VALOR_BS`, `DESC_VALOR_BS`, `PAGOBS`, `SALDOBS`, `SUCURSAL`) VALUES (NULL, '" + purchase.getCustomerID() + "'\n" +
+                ", '" + purchase.getPurchaseCod() + "','" + purchase.getTotalUSD() + "', '" + purchase.getLiteralUSD() + "', '" + purchase.getDate() + "', '" + purchase.getIvaPercent() + "', '" + purchase.getIvaAmountUSD() + "', '" + purchase.getExchange() + "', '" + purchase.getUserID() + "', '" + purchase.getDiscountBeforeUSD() + "', '" + purchase.getDiscountPercent() + "', '" + purchase.getDiscountAmountUSD() + "', '" + purchase.getState() + "', '" + purchase.getCreditUSD() + "', '" + purchase.getDebitUSD() + "', '" + purchase.getLiteralBS() + "',  '" + purchase.getProgress() + "', '" + purchase.getTotalBS() + "', '" + purchase.getDiscountBeforeBS() + "', '" + purchase.getIvaAmountBS() + "', '" + purchase.getDiscountAmountBS() + "' , '" + purchase.getCreditBS() + "', '" + purchase.getDebitBS() + "', '" + purchase.getShopID() + "');";
+        System.out.println(consulta);
+        stm.execute(consulta);
+    }
+
+
     public void insertarReporte(String cod, String cod_vent, String fecha, String codart, int cantidad, Double precio, Double total, Double precio_bs, Double total_bs, String des, String codprov, String codcli) throws SQLException {
 
         //   //out.println(des);
         consulta = "INSERT INTO `electr_reporte_item` (`cod_reporte`, `cod`, `cod_vent`, `fec_venta`, `codart`, `cantidad`, `precio`, `total`, `precio_bs`, `total_bs`, `des`, `codprov`, `cod_cli`) VALUES (NULL, '" + cod + "', '" + cod_vent + "', '" + fecha + "', '" + codart + "', '" + cantidad + "', '" + precio + "', '" + total + "', '" + precio_bs + "', '" + total_bs + "', '" + des + "', '" + codprov + "', '" + codcli + "');";
         //   //out.println(consulta);
+
         stm.execute(consulta);
 
 
@@ -1747,8 +1796,16 @@ public class SQL {
     }
 
     //2018
+    public boolean setNewPurchase(int purchaseID, int userID, int shopID) throws SQLException {
+        consulta = "INSERT INTO `electr_sec_ventas` (`CODVENT`, `ESTADO`, `modificar`, `resp`, `cod_sucursal`, `VALIDO`, `cod`, `terminado`, `modify`) VALUES ('" + purchaseID + "', '1', '0000-00-00 00:00:00.000000', '" + userID + "', '" + shopID + "', '1', NULL, '0', '0');";
+        return stm.execute(consulta);
+
+    }
+
+
+    //2018
     public boolean returnDevArt(String codcli, String codart, String qty, String priceUSD, String totalUSD, String codDev, String desc, String shopID, String priceBS, String totalBS, String codVent) throws SQLException {
-        consulta = "INSERT INTO `electr_devart` (`CODCLI`, `CODART`, `CANTIDAD`, `PRECIO`, `TOTAL`, `CODDEV`, `DES`, `cod_sucursal`, `PRECIO_BS`, `TOTAL_BS`, `CODVENT`, `COD`) VALUES ('" + codcli + "', '" + codart + "', '" + qty + "', '" + priceUSD + "', ' + " + totalUSD + " +', '" + codDev + "', '" + desc + "', '" + shopID + "', '" + priceBS + "', '" + totalBS + "', '" + codVent + "', NULL);";
+        consulta = "INSERT INTO `electr_devart` (`CODCLI`, `CODART`, `CANTIDAD`, `PRECIO`, `TOTAL`, `CODDEV`, `DES`, `cod_sucursal`, `PRECIO_BS`, `TOTAL_BS`, `CODVENT`, `COD`) VALUES ('" + codcli + "', '" + codart + "', '" + qty + "', '" + priceUSD + "', '" + totalUSD + "', '" + codDev + "', '" + desc + "', '" + shopID + "', '" + priceBS + "', '" + totalBS + "', '" + codVent + "', NULL);";
         System.out.println(consulta);
         //  return stm.execute(consulta);
         return true;
