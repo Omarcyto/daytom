@@ -38,7 +38,7 @@ public class UpdateGainsPercent {
         this.productList = new ArrayList<>();
         this.shopID = 1;
         this.range = QUERY.getRange();
-        this.exis = QUERY.getExis();
+        this.exis = QUERY.getSortedTable("electr_exis","CODART");
 
         try {
             this.source = new File(new File(".").getCanonicalPath() + SEPARATOR + "updateGainsPercent.xlsx");

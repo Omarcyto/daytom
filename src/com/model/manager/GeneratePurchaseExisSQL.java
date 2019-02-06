@@ -54,6 +54,7 @@ public class GeneratePurchaseExisSQL {
     private Map<Integer, String[]> resumeMap;
     private Map<Integer, String> providerList;
     private int counter;
+    private boolean isACC = true;
     private static final String SEPARATOR = System.getProperty("file.separator");
 
     public GeneratePurchaseExisSQL() throws SQLException, ClassNotFoundException {
@@ -66,7 +67,18 @@ public class GeneratePurchaseExisSQL {
         this.providerList = new HashMap<>();
         this.counter = 0;
         this.shopID = 1;
-        this.tcExt = 1;
+        // PLEASE USER FLAG isACC IMPORTANT,,,!!!!!!!!
+        // PLEASE USER FLAG isACC IMPORTANT,,,!!!!!!!!
+        // PLEASE USER FLAG isACC IMPORTANT,,,!!!!!!!!
+        // PLEASE USER FLAG isACC IMPORTANT,,,!!!!!!!!
+
+        this.tcExt = 1.0;
+        this.isACC = true;
+
+        // PLEASE USER FLAG isACC IMPORTANT,,,!!!!!!!!
+        // PLEASE USER FLAG isACC IMPORTANT,,,!!!!!!!!
+        // PLEASE USER FLAG isACC IMPORTANT,,,!!!!!!!!
+
         this.tcLocal = 6.96;
         this.userID = 2;
         this.codPurchase = "C0004";
@@ -76,7 +88,7 @@ public class GeneratePurchaseExisSQL {
         this.fillProvideList();
         this.range = QUERY.getRange();
         this.rangeList = this.getMapOfPercents();
-        this.exis = QUERY.getExis();
+        this.exis = QUERY.getSortedTable("electr_exis","CODART");
 
         try {
             System.out.println(new File(".").getCanonicalPath());
@@ -99,41 +111,6 @@ public class GeneratePurchaseExisSQL {
         });
     }
 
-    public void excelQuotationGeneratorFromCustomer() {
-
-        this.createCustomerQuotationFromExcel(source);
-        this.sortOrderAndSumQty();
-        this.completeQuotationWithDataBase();
-    }
-
-    public void updateGainsPercent() {
-        this.createGainsPercentFromExcelFile(source);
-        this.completeGainsPercentDataWithDataBase();
-        this.insertInToExisGains();
-    }
-
-    public void sqlDevGenerator() {
-        this.createDevArtFromExcelFile(source);
-        this.completeDevResume();
-        this.insertInToDataBaseDev();
-    }
-
-    public void excelPurchaseGenerator() {
-        //    source = CommonActions.getInstance().getFileWithJFileChooser();
-        //   if (source != null) {
-        this.createPurchaseCompareListFromExcelFile();
-        this.completeDataWithDataBase();
-        //  }
-    }
-
-    public void sqlPurchaseGenerator() {
-        //   source = CommonActions.getInstance().getFileWithJFileChooser();
-        //     if (source != null) {
-        this.createPurchaseFromExcelFile(source);
-        this.completePurchaseResume();
-        this.insertInToDataBasePurchases(); // return compart and compras tables.
-        //   }
-    }
 
     public void sqlExisGenerator() {
         //    source = CommonActions.getInstance().getFileWithJFileChooser();
@@ -267,14 +244,21 @@ public class GeneratePurchaseExisSQL {
                 if (product.getIsNew().equalsIgnoreCase("0")) {
                     // Current product
                     // String cantidad, String pcosto, String pmayor, String ufecha, String codor, String tcamext, String pexterior, String ganancia, String codprov, String codart
-
-                    QUERY.modificarItem(product.getQuantityOrigin(), product.getPriceUSD(), product.getPriceAfter(), currentDate, product.getCodOrigin(), String.valueOf(tcExt), product.getPriceOrigin(), product.getGainPercent(), product.getCodProvider(), product.getCodProduct());
+                    if(isACC)
+                        QUERY.modificarItem(product.getQuantityOrigin(), product.getPriceUSD(), product.getPriceAfter(), currentDate, product.getCodOrigin(), String.valueOf(tcExt), product.getPriceOrigin(), product.getGainPercent(), product.getCodProvider(), product.getCodProduct(), product.getDescription(), product.getTermination());
+                    else
+                        QUERY.modificarItem(product.getQuantityOrigin(), product.getPriceUSD(), product.getPriceAfter(), currentDate, product.getCodOrigin(), String.valueOf(tcExt), product.getPriceOrigin(), product.getGainPercent(), product.getCodProvider(), product.getCodProduct(), product.getDescription(), product.getTermination());
 
                     counter++;
                 } else {
+                    if(isACC)
+                        QUERY.insertarItemNuevoCompra(product.getCodProduct(), product.getDescription(), product.getQuantityOrigin(), product.getPriceUSD(), product.getPriceAfter(), currentDate, product.getCodOrigin(), product.getPriceOrigin(), product.getGainPercent(), product.getCodProvider(), product.getLine(), String.valueOf(tcExt));
+                    else
+                        QUERY.insertarItemNuevoCompra(product.getCodProduct(), product.getDescription(),product.getTermination(),product.getQuantityOrigin(), product.getPriceUSD(), product.getPriceAfter(), currentDate, product.getCodOrigin(), product.getPriceOrigin(), product.getGainPercent(), product.getCodProvider(), product.getLine(), String.valueOf(tcExt));
+
                     // new product
                     // String codart,String desc, String cantidad, String pcosto, String pmayor, String fec, String codor, String pexterior, String ganancia, String codprov
-                    QUERY.insertarItemNuevoCompra(product.getCodProduct(), product.getDescription(), product.getQuantityOrigin(), product.getPriceUSD(), product.getPriceAfter(), currentDate, product.getCodOrigin(), product.getPriceOrigin(), product.getGainPercent(), product.getCodProvider(), product.getLine());
+                   // QUERY.insertarItemNuevoCompra(product.getCodProduct(), product.getDescription(), product.getQuantityOrigin(), product.getPriceUSD(), product.getPriceAfter(), currentDate, product.getCodOrigin(), product.getPriceOrigin(), product.getGainPercent(), product.getCodProvider(), product.getLine());
                     counterNewProducs[0]++;
                 }
             } catch (SQLException e) {
@@ -500,35 +484,36 @@ public class GeneratePurchaseExisSQL {
                                 .with(Product::setCodProvider, row.getCell(0).getStringCellValue())  //ok .
                                 .with(Product::setCodOrigin, row.getCell(1).getStringCellValue()) //ok .
                                 .with(Product::setCodProduct, row.getCell(2).getStringCellValue()) //ok .
-                                .with(Product::setDescription, row.getCell(3).getStringCellValue()) //ok .
-                                .with(Product::setPriceOrigin, String.valueOf(FORMAT_USD.format(row.getCell(6).getNumericCellValue()))) //ok .
-                                .with(Product::setPriceBefore, String.valueOf(FORMAT_USD.format(row.getCell(5).getNumericCellValue()))) //ok .
-                                .with(Product::setPriceUSD, String.valueOf(FORMAT_USD.format(row.getCell(9).getNumericCellValue() / tcExt))) //ok .
-                                .with(Product::setGainPercent, String.valueOf(FORMAT_USD.format(row.getCell(8).getNumericCellValue()))) //ok .
-                                .with(Product::setGainPercentBefore, String.valueOf(FORMAT_USD.format(row.getCell(7).getNumericCellValue()))) //ok .
-                                .with(Product::setPriceAfter, String.valueOf(FORMAT_USD.format(row.getCell(10).getNumericCellValue()))) //ok .
-                                .with(Product::setPriceCurrentUSD, String.valueOf(FORMAT_USD.format(row.getCell(11).getNumericCellValue()))) //ok .
-                                .with(Product::setPreTotal, FORMAT_USD.format(row.getCell(6).getNumericCellValue() * row.getCell(12).getNumericCellValue())) //ok
-                                .with(Product::setQuantityOrigin, row.getCell(12).getStringCellValue().replace(",", "")) // ok  .
-                                .with(Product::setQuantityCurrent, row.getCell(13).getStringCellValue().replace(",", "")) // ok  .
+                                .with(Product::setTermination, row.getCell(3).getStringCellValue()) //ok .
+                                .with(Product::setDescription, row.getCell(4).getStringCellValue()) //ok .
+                                .with(Product::setPriceOrigin, String.valueOf(FORMAT_USD.format(row.getCell(7).getNumericCellValue())))
+                                .with(Product::setPriceBefore, String.valueOf(FORMAT_USD.format(row.getCell(6).getNumericCellValue())))
+                                .with(Product::setPriceUSD, String.valueOf(FORMAT_USD.format(row.getCell(10).getNumericCellValue() / tcExt)))
+                                .with(Product::setGainPercent, String.valueOf(FORMAT_USD.format(row.getCell(9).getNumericCellValue())))
+                                .with(Product::setGainPercentBefore, String.valueOf(FORMAT_USD.format(row.getCell(8).getNumericCellValue())))
+                                .with(Product::setPriceAfter, String.valueOf(FORMAT_USD.format(row.getCell(11).getNumericCellValue())))
+                                .with(Product::setPriceCurrentUSD, String.valueOf(FORMAT_USD.format(row.getCell(12).getNumericCellValue())))
+                                .with(Product::setPreTotal, FORMAT_USD.format(row.getCell(7).getNumericCellValue() * row.getCell(13).getNumericCellValue()))
+                                .with(Product::setQuantityOrigin, row.getCell(13).getStringCellValue().replace(",", ""))
+                                .with(Product::setQuantityCurrent, row.getCell(14).getStringCellValue().replace(",", ""))
                                 .with(Product::setShopID, String.valueOf(this.shopID))
-                                .with(Product::setIsNew, row.getCell(14).getStringCellValue()) // .
-                                .with(Product::setLine, row.getCell(4).getStringCellValue()) //.
+                                .with(Product::setIsNew, row.getCell(15).getStringCellValue())
+                                .with(Product::setLine, row.getCell(5).getStringCellValue())
                                 // .with(Product::setCodPurchase, row.getCell(15).getStringCellValue())
                                 .build());
                         //WORKING..!!!!!!!!!!
                         System.out.println(row.getCell(0).getStringCellValue() + " " + row.getCell(1).getStringCellValue());
-                        preTotal[0] = Double.valueOf(FORMAT_USD.format(row.getCell(6).getNumericCellValue() * row.getCell(12).getNumericCellValue())); //ok);
+                        preTotal[0] = Double.valueOf(FORMAT_USD.format(row.getCell(7).getNumericCellValue() * row.getCell(13).getNumericCellValue())); //ok);
 
                         provider[0] = Integer.valueOf(row.getCell(0).getStringCellValue());
                         String[] data = new String[4];
 
                         if (resumeMap.get(provider[0]) == null) {
-                            data[0] = row.getCell(15).getStringCellValue();
+                            data[0] = row.getCell(16).getStringCellValue();
                             data[1] = String.valueOf(preTotal[0]);
                             resumeMap.put(provider[0], data);
                         } else {
-                            data[0] = row.getCell(15).getStringCellValue();
+                            data[0] = row.getCell(16).getStringCellValue();
                             data[1] = FORMAT_USD.format(Double.valueOf(resumeMap.get(provider[0])[1]) + preTotal[0]);
                             resumeMap.put(provider[0], data);
                         }

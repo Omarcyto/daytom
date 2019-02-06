@@ -79,7 +79,7 @@ public class ExcelManager {
         this.fillProvideList();
         this.range = QUERY.getRange();
         this.rangeList = this.getMapOfPercents();
-        this.exis = QUERY.getExis();
+        this.exis = QUERY.getSortedTable("electr_exis","CODART");
 
         try {
             System.out.println(new File(".").getCanonicalPath());
@@ -92,7 +92,7 @@ public class ExcelManager {
 
 
         // manager
-        //   this.excelPurchaseGenerator();// Prepare PRE PURCHASES
+        //   this.excelDealGenerator();// Prepare PRE PURCHASES
 
         //     this.sqlPurchaseGenerator(); //PREPARE TO PURCHASE INSERT INTO DATA BASE
 
@@ -296,7 +296,7 @@ public class ExcelManager {
                 } else {
                     // new product
                     // String codart,String desc, String cantidad, String pcosto, String pmayor, String fec, String codor, String pexterior, String ganancia, String codprov
-                    QUERY.insertarItemNuevoCompra(product.getCodProduct(), product.getDescription(), product.getQuantityOrigin(), product.getPriceUSD(), product.getPriceAfter(), currentDate, product.getCodOrigin(), product.getPriceOrigin(), product.getGainPercent(), product.getCodProvider(), product.getLine());
+                    QUERY.insertarItemNuevoCompra(product.getCodProduct(), product.getDescription(), product.getQuantityOrigin(), product.getPriceUSD(), product.getPriceAfter(), currentDate, product.getCodOrigin(), product.getPriceOrigin(), product.getGainPercent(), product.getCodProvider(), product.getLine(), String.valueOf(tcExt));
                     counterNewProducs[0]++;
                 }
             } catch (SQLException e) {

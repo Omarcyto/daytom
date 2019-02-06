@@ -28,11 +28,9 @@ public class CreateDevolution {
     private static final DecimalFormat FORMAT_USD = CommonActions.getInstance().getFormatUSD();
     private static final DecimalFormat FORMAT_BS = CommonActions.getInstance().getFormatBS();
     private final SQL QUERY = SQL.getInstance();
-    private double tcExt;
     private double tcLocal;
     private int userID;
     private int shopID;
-    private Stream<ResultSet> range;
     private File source;
     private List<Product> productList;
     private List<ResumeReturn> resumeDevList;
@@ -42,18 +40,13 @@ public class CreateDevolution {
     private ArrayList<ResumeReturn> resumePurchaseList;
 
     public CreateDevolution() throws SQLException, ClassNotFoundException {
-
-
         this.productList = new ArrayList<>();
         this.resumeDevList = new ArrayList<>();
         this.resumeMap = new HashMap<>();
         this.counter = 0;
         this.shopID = 1;
-        this.tcExt = 1;
         this.tcLocal = 6.96;
         this.userID = 2;
-        this.range = QUERY.getRange();
-
         try {
             this.source = new File(new File(".").getCanonicalPath() + SEPARATOR + "devolucionesDaytom.xlsx");
         } catch (IOException e) {
@@ -139,7 +132,7 @@ public class CreateDevolution {
                         cont[0]++;
                     } else {
                         preTotalBS[0] = Double.valueOf(FORMAT_BS.format(row.getCell(2).getNumericCellValue() * row.getCell(3).getNumericCellValue())); //ok);
-                        preTotalUSD[0] = Double.valueOf(FORMAT_USD.format(preTotalBS[0] / tcLocal)); //ok);
+                        preTotalUSD[0] = Double.valueOf(FORMAT_USD.format(row.getCell(2).getNumericCellValue() * row.getCell(3).getNumericCellValue() / tcLocal)); //ok);
                         productList.add(GenericBuilder.of(Product::new)
                                 .with(Product::setCodCli, row.getCell(0).getStringCellValue())  //ok .
                                 .with(Product::setCodProduct, row.getCell(1).getStringCellValue()) //ok

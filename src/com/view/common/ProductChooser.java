@@ -13,7 +13,6 @@ public class ProductChooser extends JPanel{
     private void createUIComponents() {
         this.productSearch = new SearchTextField();
          this.productSearch.setPlaceHolderText("Ingresa el Codigo o Desc.");
-        this.productSearch.setSizeOfSearchTextFienld(278, 40);
     }
 
 

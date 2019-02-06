@@ -48,7 +48,7 @@ public class CreateQuotation {
         this.providers = QUERY.getProviders();
         this.fillProvideList();
         this.range = QUERY.getRange();
-        this.exis = QUERY.getExis();
+        this.exis = QUERY.getSortedTable("electr_exis","CODART");
 
         try {
             System.out.println(new File(".").getCanonicalPath());

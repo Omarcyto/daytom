@@ -157,35 +157,36 @@ public class GeneratePurchaseSQL {
                                 .with(Product::setCodProvider, row.getCell(0).getStringCellValue())  //ok .
                                 .with(Product::setCodOrigin, row.getCell(1).getStringCellValue()) //ok .
                                 .with(Product::setCodProduct, row.getCell(2).getStringCellValue()) //ok .
-                                .with(Product::setDescription, row.getCell(3).getStringCellValue()) //ok .
-                                .with(Product::setPriceOrigin, String.valueOf(FORMAT_USD.format(row.getCell(6).getNumericCellValue()))) //ok .
-                                .with(Product::setPriceBefore, String.valueOf(FORMAT_USD.format(row.getCell(5).getNumericCellValue()))) //ok .
-                                .with(Product::setPriceUSD, String.valueOf(FORMAT_USD.format(row.getCell(9).getNumericCellValue() / tcExt))) //ok .
-                                .with(Product::setGainPercent, String.valueOf(FORMAT_USD.format(row.getCell(8).getNumericCellValue()))) //ok .
-                                .with(Product::setGainPercentBefore, String.valueOf(FORMAT_USD.format(row.getCell(7).getNumericCellValue()))) //ok .
-                                .with(Product::setPriceAfter, String.valueOf(FORMAT_USD.format(row.getCell(10).getNumericCellValue()))) //ok .
-                                .with(Product::setPriceCurrentUSD, String.valueOf(FORMAT_USD.format(row.getCell(11).getNumericCellValue()))) //ok .
-                                .with(Product::setPreTotal, FORMAT_USD.format(row.getCell(6).getNumericCellValue() * row.getCell(12).getNumericCellValue())) //ok
-                                .with(Product::setQuantityOrigin, row.getCell(12).getStringCellValue().replace(",", "")) // ok  .
-                                .with(Product::setQuantityCurrent, row.getCell(13).getStringCellValue().replace(",", "")) // ok  .
+                                .with(Product::setTermination, row.getCell(3).getStringCellValue()) //ok .
+                                .with(Product::setDescription, row.getCell(4).getStringCellValue()) //ok .
+                                .with(Product::setPriceOrigin, String.valueOf(FORMAT_USD.format(row.getCell(7).getNumericCellValue())))
+                                .with(Product::setPriceBefore, String.valueOf(FORMAT_USD.format(row.getCell(6).getNumericCellValue())))
+                                .with(Product::setPriceUSD, String.valueOf(FORMAT_USD.format(row.getCell(10).getNumericCellValue() / tcExt)))
+                                .with(Product::setGainPercent, String.valueOf(FORMAT_USD.format(row.getCell(9).getNumericCellValue())))
+                                .with(Product::setGainPercentBefore, String.valueOf(FORMAT_USD.format(row.getCell(8).getNumericCellValue())))
+                                .with(Product::setPriceAfter, String.valueOf(FORMAT_USD.format(row.getCell(11).getNumericCellValue())))
+                                .with(Product::setPriceCurrentUSD, String.valueOf(FORMAT_USD.format(row.getCell(12).getNumericCellValue())))
+                                .with(Product::setPreTotal, FORMAT_USD.format(row.getCell(7).getNumericCellValue() * row.getCell(13).getNumericCellValue()))
+                                .with(Product::setQuantityOrigin, row.getCell(13).getStringCellValue().replace(",", ""))
+                                .with(Product::setQuantityCurrent, row.getCell(14).getStringCellValue().replace(",", ""))
                                 .with(Product::setShopID, String.valueOf(this.shopID))
-                                .with(Product::setIsNew, row.getCell(14).getStringCellValue()) // .
-                                .with(Product::setLine, row.getCell(4).getStringCellValue()) //.
+                                .with(Product::setIsNew, row.getCell(15).getStringCellValue())
+                                .with(Product::setLine, row.getCell(5).getStringCellValue())
                                 // .with(Product::setCodPurchase, row.getCell(15).getStringCellValue())
                                 .build());
                         //WORKING..!!!!!!!!!!
                         System.out.println(row.getCell(0).getStringCellValue() + " " + row.getCell(1).getStringCellValue());
-                        preTotal[0] = Double.valueOf(FORMAT_USD.format(row.getCell(6).getNumericCellValue() * row.getCell(12).getNumericCellValue())); //ok);
+                        preTotal[0] = Double.valueOf(FORMAT_USD.format(row.getCell(7).getNumericCellValue() * row.getCell(13).getNumericCellValue())); //ok);
 
                         provider[0] = Integer.valueOf(row.getCell(0).getStringCellValue());
                         String[] data = new String[4];
 
                         if (resumeMap.get(provider[0]) == null) {
-                            data[0] = row.getCell(15).getStringCellValue();
+                            data[0] = row.getCell(16).getStringCellValue();
                             data[1] = String.valueOf(preTotal[0]);
                             resumeMap.put(provider[0], data);
                         } else {
-                            data[0] = row.getCell(15).getStringCellValue();
+                            data[0] = row.getCell(16).getStringCellValue();
                             data[1] = FORMAT_USD.format(Double.valueOf(resumeMap.get(provider[0])[1]) + preTotal[0]);
                             resumeMap.put(provider[0], data);
                         }

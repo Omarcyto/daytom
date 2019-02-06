@@ -4,27 +4,16 @@
     <constraints>
       <xy x="20" y="20" width="500" height="400"/>
     </constraints>
-    <properties>
-      <maximumSize width="295" height="238"/>
-      <minimumSize width="295" height="238"/>
-      <preferredSize width="295" height="238"/>
-    </properties>
+    <properties/>
     <border type="none"/>
     <children>
       <component id="8b435" class="com.utils.SearchTextField" binding="productSearch" custom-create="true">
         <constraints border-constraint="North"/>
-        <properties>
-          <maximumSize width="278" height="40"/>
-          <minimumSize width="278" height="40"/>
-          <preferredSize width="278" height="40"/>
-        </properties>
+        <properties/>
       </component>
       <scrollpane id="7f89d">
         <constraints border-constraint="Center"/>
-        <properties>
-          <maximumSize width="454" height="418"/>
-          <minimumSize width="454" height="418"/>
-        </properties>
+        <properties/>
         <clientProperties>
           <html.disable class="java.lang.Boolean" value="false"/>
         </clientProperties>

@@ -10,15 +10,20 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.xml.validation.Schema;
 import java.io.File;
 import java.io.IOException;
+import java.security.Provider;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
@@ -33,19 +38,22 @@ public class CreateExcelPurchase {
     private File source;
     private List<Product> productList;
     private List<String[]> rangeList;
+    //private HashMap providerList;
+   // private Stream<ResultSet> providers;
     private int counter;
     private static final String SEPARATOR = System.getProperty("file.separator");
 
     public CreateExcelPurchase() throws SQLException, ClassNotFoundException {
 
-
+      //  this.providerList = new HashMap();
         this.productList = new ArrayList<>();
         this.counter = 0;
         this.shopID = 1;
         this.tcExt = 1;
         this.range = QUERY.getRange();
         this.rangeList = this.getMapOfPercents();
-        this.exis = QUERY.getExis();
+        this.exis = QUERY.getSortedTable("electr_exis","CODART");
+       // this.providers = QUERY.getProviders();
 
         try {
             System.out.println(new File(".").getCanonicalPath());
@@ -69,9 +77,6 @@ public class CreateExcelPurchase {
     public void createPurchaseCompareListFromExcelFile() {
         this.productList = new ArrayList<>();
         Workbook sourceData = this.getWorkBook(source);
-
-        final double[] preTotal = new double[1];
-        final Integer[] provider = new Integer[1];
         // Recover Data from Excel.
         final int[] cont = {0};
         sourceData.getSheetAt(0)
@@ -79,15 +84,21 @@ public class CreateExcelPurchase {
                     if (cont[0] == 0) {
                         cont[0]++;
                     } else {
+                        System.out.println(row.getCell(1).getStringCellValue()+" - "+row.getCell(3).getStringCellValue());
+                        String codOrig = row.getCell(1).getStringCellValue().replace(" ", "").toUpperCase();
+                        if( codOrig.startsWith("ARD"))
+                            codOrig = codOrig.replace("ARD","ARD-");
+
                         productList.add(GenericBuilder.of(Product::new)
-                                .with(Product::setCodOrigin, row.getCell(1).getStringCellValue())
+                                .with(Product::setCodOrigin, codOrig)
                                 .with(Product::setQuantityOrigin, row.getCell(2).getStringCellValue().replace(",", ""))
                                 .with(Product::setCodProvider, row.getCell(0).getStringCellValue())
-                                .with(Product::setPriceOrigin, String.valueOf(FORMAT_USD.format(row.getCell(4).getNumericCellValue())))
-                                .with(Product::setDescription, row.getCell(3).getStringCellValue())
-                                .with(Product::setPriceUSD, String.valueOf(FORMAT_USD.format(row.getCell(4).getNumericCellValue() / tcExt)))
-                                .with(Product::setPreTotal, FORMAT_USD.format(row.getCell(4).getNumericCellValue() * row.getCell(2).getNumericCellValue()))
+                                .with(Product::setPriceOrigin, String.valueOf(FORMAT_USD.format(row.getCell(5).getNumericCellValue())))
+                                .with(Product::setTermination, row.getCell(3).getStringCellValue())
+                                .with(Product::setPriceUSD, String.valueOf(FORMAT_USD.format(row.getCell(5).getNumericCellValue() / tcExt)))
+                                .with(Product::setPreTotal, FORMAT_USD.format(row.getCell(5).getNumericCellValue() * row.getCell(2).getNumericCellValue()))
                                 .with(Product::setShopID, "1")
+                                .with(Product::setDescription,row.getCell(4).getStringCellValue())
                                 .build());
                         //WORKING..!!!!!!!!!!
                         counter++;
@@ -101,8 +112,10 @@ public class CreateExcelPurchase {
         List<Product> cache = new ArrayList<>();
         exis.forEach(rs -> productList.forEach(product -> {
             try {
+
                 String codart = rs.getString("CODART").toUpperCase();
-                if (codart.replace(" ", "").contains(product.getCodOrigin().replace(" ", "").toUpperCase())) {
+                System.out.println(codart);
+                if (codart.replace(" ", "").equalsIgnoreCase(product.getCodOrigin().replace(" ", "").toUpperCase())) {
                     cache.add(GenericBuilder.of(Product::new)
                             .with(Product::setCodProduct, rs.getString("CODART"))
                             .with(Product::setLine, rs.getString("LIN"))
@@ -117,6 +130,8 @@ public class CreateExcelPurchase {
                             .with(Product::setDescription, product.getDescription())
                             .with(Product::setPriceUSD, product.getPriceUSD())
                             .with(Product::setPreTotal, product.getPreTotal())
+                            .with(Product::setDescription, product.getDescription())
+                            .with(Product::setTermination, product.getTermination())
                             .with(Product::setShopID, "1")
                             .with(Product::setIsNew, "0")
                             .build());
@@ -142,7 +157,7 @@ public class CreateExcelPurchase {
         try {
             List<JTable> tb = new ArrayList<JTable>();
             tb.add(this.fillJTableWithProducts());
-            SaveExcel excelExporter = new SaveExcel(tb, new File(new File(".").getCanonicalPath() + ".xlsx"), "output");
+            SaveExcel excelExporter = new SaveExcel(tb, new File(new File(".").getCanonicalPath() + ".xls"), "output");
             if (excelExporter.export()) {
                 JOptionPane.showMessageDialog(null, "TABLAS EXPORTADOS CON EXITOS!");
             }
@@ -155,8 +170,8 @@ public class CreateExcelPurchase {
     public JTable fillJTableWithProducts() {
         JTable table = new JTable();
 
-        String columnNames[] = {"Provider", "CodeExt", "Code", "Desc", "Line", "Cost Before", "Cost Now", "Gains Before", "Gains Now", "Price USD", "Price Now", "Price Before", "Qty Now", "Qty Before", "Is New?"};
-        String rowData[][] = {{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}};
+        String columnNames[] = {"Provider", "CodeExt", "Code","Termination", "Desc", "Line", "Cost Before", "Cost Now", "Gains Before", "Gains Now", "Price USD", "Price Now", "Price Before", "Qty Now", "Qty Before", "Is New?"};
+        String rowData[][] = {{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}};
 
         DefaultTableModel model = new DefaultTableModel(rowData, columnNames) {
             @Override
@@ -167,7 +182,7 @@ public class CreateExcelPurchase {
         table.setModel(model);
         CommonActions.getInstance().cleanModelOfJTable(model);
         productList.forEach(product -> {
-            model.addRow(new String[]{product.getCodProvider(), product.getCodOrigin(), product.getCodProduct(), product.getDescription(), product.getLine(), product.getPriceBefore(), product.getPriceOrigin(), product.getGainPercentBefore(), product.getGainPercent(), product.getPriceUSD(), product.getPriceAfter(), product.getPriceCurrentUSD(), product.getQuantityOrigin(), product.getQuantityCurrent(), product.getIsNew()});
+            model.addRow(new String[]{product.getCodProvider(), product.getCodOrigin(), product.getCodProduct(), product.getTermination(), product.getDescription(), product.getLine(), product.getPriceBefore(), product.getPriceOrigin(), product.getGainPercentBefore(), product.getGainPercent(), product.getPriceUSD(), product.getPriceAfter(), product.getPriceCurrentUSD(), product.getQuantityOrigin(), product.getQuantityCurrent(), product.getIsNew()});
         });
         //   table.setModel(model);
         return table;

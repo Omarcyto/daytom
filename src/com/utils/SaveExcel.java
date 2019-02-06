@@ -43,9 +43,7 @@ public class SaveExcel {
             w.close();
             out.close();
             return true;
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } catch (WriteException ex) {
+        } catch (IOException | WriteException ex) {
             ex.printStackTrace();
         }
         return false;

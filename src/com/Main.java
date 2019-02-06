@@ -1,16 +1,9 @@
 package com;
 
-import com.model.common.SearchProductModel;
-import com.model.manager.CreateDevolution;
-import com.model.manager.CreateQuotation;
-import com.model.manager.ExcelManager;
-import com.model.purchase.CreatePurchase;
-import com.utils.SearchTextField;
-import com.utils.tables.Product;
+import com.model.manager.*;
+import com.singleton.PasswordGenerator;
 
-import javax.swing.*;
 import java.sql.SQLException;
-import java.util.List;
 
 
 /**
@@ -19,19 +12,23 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-       // GeneratePurchaseExisSQL generatePurchaseSQL = new GeneratePurchaseExisSQL();
-      //  CreateQuotation quotation = new CreateQuotation();
-     //   CreateDevolution devolution = new CreateDevolution();
+//        CreateExcelPurchase purchase_1st = new CreateExcelPurchase();
+//        GeneratePurchaseExisSQL generatePurchaseSQL = new GeneratePurchaseExisSQL();
+//        GeneratePurchaseSQL generatePurchaseSQL = new GeneratePurchaseSQL();
+       // CreateQuotation quotation = new CreateQuotation();
+//          CreateDevolution devolution = new CreateDevolution();
        // UpdateGainsPercent updateGainsPercent = new UpdateGainsPercent();
-     //   ExcelManager excelManager = new ExcelManager();
+      //  ExcelManager excelManager = new ExcelManager();
+      //  CreateExcelDeal createExcelDeal = new CreateExcelDeal();
+       // createExcelDeal.excelDealGenerator();
+       // createExcelDeal.requestGenerator();
 
+   //     DeleteDuplicatedCode deleteDuplicatedCode = new DeleteDuplicatedCode();
+      //  deleteDuplicatedCode.excelDealGenerator();
 
-        SearchProductModel productModel = new SearchProductModel(new JTable(),new SearchTextField(), new JLabel(""),1);
-        List<Product> productList = productModel.getProductList();
-        //productList.forEach(product -> System.out.println(product.getCodProduct()));
-        CreatePurchase pruchase= new CreatePurchase(productList,1,2);
+       // System.out.println( PasswordGenerator.getGenerator().encriptar("1177142765") );
 
-
+//        ImproveCodArt improveCodArt = new ImproveCodArt();
     }
 
 }
